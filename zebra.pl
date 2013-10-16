@@ -1,29 +1,42 @@
-exists(A, (A,_,_,_,_)).
-exists(A, (_,A,_,_,_)).
-exists(A, (_,_,A,_,_)).
-exists(A, (_,_,_,A,_)).
-exists(A, (_,_,_,_,A)).
+exists(A, [H|T]) :- H = A ; exists(A, T).
 
-rightOf(A, B, (B,A,_,_,_)).
-rightOf(A, B, (_,B,A,_,_)).
-rightOf(A, B, (_,_,B,A,_)).
-rightOf(A, B, (_,_,_,B,A)).
+rightOf(A, B, [X,Y|T]) :- A = Y, B = X ; rightOf(A, B, T).
 
-middleHouse(A, (_,_,A,_,_)).
+% exists(A, (A,_,_,_,_)).
+% exists(A, (_,A,_,_,_)).
+% exists(A, (_,_,A,_,_)).
+% exists(A, (_,_,_,A,_)).
+% exists(A, (_,_,_,_,A)).
 
-firstHouse(A, (A,_,_,_,_)).
+% rightOf(A, B, (B,A,_,_,_)).
+% rightOf(A, B, (_,B,A,_,_)).
+% rightOf(A, B, (_,_,B,A,_)).
+% rightOf(A, B, (_,_,_,B,A)).
 
-nextTo(A, B, (A,B,_,_,_)).
-nextTo(A, B, (_,A,B,_,_)).
-nextTo(A, B, (_,_,A,B,_)).
-nextTo(A, B, (_,_,_,A,B)).
-nextTo(A, B, (B,A,_,_,_)).
-nextTo(A, B, (_,B,A,_,_)).
-nextTo(A, B, (_,_,B,A,_)).
-nextTo(A, B, (_,_,_,B,A)).
+middleHouse(A, [_,_,A,_,_]).
+
+firstHouse(A, [A,_,_,_,_]).
+
+nextTo(A, B, [X,Y|T]) :- rightOf(A, B, [X,Y|T]) ; rightOf(B, A, [X,Y|T]).
+
+
+listLength([],0).
+listLength([H|T], X):- listLength(T, X1), X is X1 + 1.
+
+% nextTo(A, B, (A,B,_,_,_)).
+% nextTo(A, B, (_,A,B,_,_)).
+% nextTo(A, B, (_,_,A,B,_)).
+% nextTo(A, B, (_,_,_,A,B)).
+% nextTo(A, B, (B,A,_,_,_)).
+% nextTo(A, B, (_,B,A,_,_)).
+% nextTo(A, B, (_,_,B,A,_)).
+% nextTo(A, B, (_,_,_,B,A)).
+
+  % There are five houses.
+:-listLength(Houses, 5),
 
 	% The Englishman lives in the red house.
-:-exists(house(british,_,_,_,red),Houses),
+	exists(house(british,_,_,_,red),Houses),
 	
 	% The Spaniard owns the dog.
 	exists(house(spanish,dog,_,_,_),Houses),
