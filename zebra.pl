@@ -1,6 +1,11 @@
-exists(A, [H|T]) :- H = A ; exists(A, T).
+exists(A, [A|T]).
+exists(A, [_|T]) :- exists(A, T).
 
-rightOf(A, B, [X,Y|T]) :- A = Y, B = X ; rightOf(A, B, T).
+leftOf(A, B, [A,B|T]).
+leftOf(A, B, [_|T]) :- leftOf(A, B, T).
+
+rightOf(A, B, [B,A|T]).
+rightOf(A, B, [_|T]) :- rightOf(A, B, T).
 
 % exists(A, (A,_,_,_,_)).
 % exists(A, (_,A,_,_,_)).
@@ -17,11 +22,10 @@ middleHouse(A, [_,_,A,_,_]).
 
 firstHouse(A, [A,_,_,_,_]).
 
-nextTo(A, B, [X,Y|T]) :- rightOf(A, B, [X,Y|T]) ; rightOf(B, A, [X,Y|T]).
-
+nextTo(A, B, [X,Y|T]) :- rightOf(A, B, [A,B|T]) ; leftOf(A, B, [A,B|T]).
 
 listLength([],0).
-listLength([H|T], X):- listLength(T, X1), X is X1 + 1.
+listLength([H|T], X) :- listLength(T, X1), X is X1 + 1.
 
 % nextTo(A, B, (A,B,_,_,_)).
 % nextTo(A, B, (_,A,B,_,_)).
