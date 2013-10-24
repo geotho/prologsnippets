@@ -4,7 +4,7 @@ take([H|T], R, [H|S]) :- take(T,R,S). % Or you can take a different element of t
 perm([],[]). % The only permutation of an empty list is an empty list.
 perm(L, [H|T]) :- take(L,H,R), perm(R,T). % 
 
-% Generate and test pattern. Perm generates a solution out, checkColours checks the solution.
+% Generate and test pattern. Perm generates a solution Out, checkColours checks the solution.
 flag(In, Out) :- perm(In,Out), checkColours(Out).
 
 % 
